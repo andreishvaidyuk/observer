@@ -16,6 +16,9 @@
             <th>First Name</th>
             <th>Phone</th>
             <th>Ticket Type</th>
+            <th>Filial</th>
+            <th>Section</th>
+            <th>Group</th>
             <th></th>
             <th></th>
         </tr>
@@ -28,6 +31,9 @@
             <td>{{student.first_name}}</td>
             <td>{{student.phone}}</td>
             <td>{{student.ticket}}</td>
+            <td>{{student.filial}}</td>
+            <td>{{student.section}}</td>
+            <td>{{student.group}}</td>
             <td><a class="btn btn-default" href="{% url 'edit_student' pk=student.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
         </tr>
         {% empty %}

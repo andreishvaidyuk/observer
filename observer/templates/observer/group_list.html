@@ -1,0 +1,39 @@
+{% extends "observer/base_generic.html" %}
+
+{% block title %}
+    <title>Group</title>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">
+    Groups
+</h1>
+<table class="table" id="student-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Group Name</th>
+            <th>Section Name</th>
+            <th>Filial Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+        <tr>
+            <td>{{group.id}}</td>
+            <td><a href="{% url 'group_detail' pk=group.pk %}">{{group.name}}</a></td>
+            <td>{{group.section}}</td>
+            <td>{{group.filial}}</td>
+            <td><a class="btn btn-default" href="{% url 'edit_group' pk=group.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center bg-warning">No group</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>You have visited this page {{num_visits}} times</p>
+{% endblock %}

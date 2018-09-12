@@ -1,0 +1,37 @@
+{% extends "observer/base_generic.html" %}
+
+{% block title %}
+    <title>Sections</title>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">
+    Sections
+</h1>
+<table class="table" id="student-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Section Name</th>
+            <th>Filial Name</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for section in sections %}
+        <tr>
+            <td>{{section.id}}</td>
+            <td><a href="{% url 'section_detail' pk=section.pk %}">{{section.name}}</a></td>
+            <td>{{section.filial}}</td>
+            <td><a class="btn btn-default" href="{% url 'edit_section' pk=section.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center bg-warning">No section</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>You have visited this page {{num_visits}} times</p>
+{% endblock %}

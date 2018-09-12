@@ -1,0 +1,39 @@
+{% extends "observer/base_generic.html" %}
+
+{% block title %}
+    <title>Filial</title>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">
+    Filials
+</h1>
+<table class="table" id="student-table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Filial Name</th>
+            <th>Filial Phone</th>
+            <th>Filial Address</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for filial in filials %}
+        <tr>
+            <td>{{filial.id}}</td>
+            <td><a href="{% url 'filial_detail' pk=filial.pk %}">{{filial.name}}</a></td>
+            <td>{{filial.phone}}</td>
+            <td>{{filial.address}}</td>
+            <td><a class="btn btn-default" href="{% url 'edit_filial' pk=filial.pk %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" class="text-center bg-warning">No filial</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>You have visited this page {{num_visits}} times</p>
+{% endblock %}

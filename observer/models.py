@@ -3,6 +3,47 @@ from django.contrib.auth.models import User
 from datetime import date
 
 
+# модель Филиала для Организации
+class Filial(models.Model):
+    name = models.CharField(max_length=20, help_text="Enter a filial name")
+    phone = models.CharField(max_length=20, help_text="Enter Phone of Filial")
+    address = models.CharField(max_length=20, help_text="Enter Address of Filial")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+# модель Направления в школе (бальные танцы, живопись и тп)
+class Section(models.Model):
+    name = models.CharField(max_length=20, help_text="Enter a section name")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    filial = models.ForeignKey('Filial', on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+# модель Группы в школе (начинающие, дошкольники и тп)
+class Group(models.Model):
+    name = models.CharField(max_length=20, help_text="Enter a group name")
+    filial = models.ForeignKey('Filial', on_delete=models.SET_NULL, null=True, blank=True)
+    section = models.ForeignKey('Section', on_delete = models.SET_NULL, null=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Ticket(models.Model):
     name = models.CharField(max_length=10, help_text="Enter a ticket name")
     price = models.IntegerField()
@@ -32,6 +73,9 @@ class Student(models.Model):
     phone = models.CharField(max_length=20, help_text="Enter Phone of Student")
     ticket = models.ForeignKey('Ticket', on_delete = models.SET_NULL, null=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    filial = models.ForeignKey('Filial', on_delete=models.SET_NULL, null=True)
+    section = models.ForeignKey('Section', on_delete = models.SET_NULL, null=True)
+    group = models.ForeignKey('Group', on_delete = models.SET_NULL, null=True)
 
     class Meta:
         ordering = ["last_name"]
