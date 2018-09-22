@@ -1,0 +1,7 @@
+<option value=""></option>
+{% for section in sections %}
+    <option value="{{section.pk}}">{{section.name}}</option>
+{% endfor %}
+{% for group in groups %}
+    <option value="{{group.pk}}">{{group.name}}</option>
+{% endfor %}

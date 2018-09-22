@@ -6,8 +6,30 @@
 
 {% block content %}
     <h1>Add new group</h1>
-    <form method="post">{% csrf_token %}
-        {{form.as_p}}
+    <form method="post" id="groupForm" data-sections-url="{% url 'ajax_load_sections' %}" novalidate>
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
         <button type="submit">Save</button>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+    $("#id_filial").change(function () {
+      var url = $("#groupForm").attr("data-sections-url");      // get the url of the `load_sections` view
+      var filialId = $(this).val();                            // get the selected filial ID from the HTML input
+
+      $.ajax({                                                // initialize an AJAX request
+        url: url,                                             // set the url of the request (= localhost:8000/ajax/load_sections/)
+        data: {
+          'filial': filialId                                // add the filial id to the GET parameters
+        },
+        success: function (data) {                            // `data` is the return of the `load_groups` view function
+          $("#id_section").html(data);                          // replace the contents of the section input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
 {% endblock %}

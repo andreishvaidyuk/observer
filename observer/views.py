@@ -139,6 +139,12 @@ def group_list(request):
     )
 
 
+def load_section(request):
+    filial_id = request.GET.get('filial')
+    sections = Section.objects.filter(filial_id=filial_id).order_by('name')
+    return render(request, 'observer/section_dropdown_list_option.html', {'sections':sections})
+
+
 def add_group(request):
     if request.method == "POST":
         form = GroupForm(request.POST)
@@ -203,6 +209,14 @@ def student_detail(request, pk):
         'observer/student_detail.html',
         {'student':student}
     )
+
+
+def load_group(request):
+    filial_id = request.GET.get('filial')
+    sections = Section.objects.filter(filial_id=filial_id).order_by('name')
+    section_id = request.GET.get('section')
+    groups = Group.objects.filter(section_id=section_id).order_by('name')
+    return render(request, 'observer/group_dropdown_list_option.html', {'sections': sections, 'groups': groups})
 
 
 def add_student(request):

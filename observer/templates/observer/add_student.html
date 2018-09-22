@@ -6,8 +6,48 @@
 
 {% block content %}
     <h1>Add new student</h1>
-    <form method="post">{% csrf_token %}
-        {{form.as_p}}
+    <form method="post" id="studentForm" data-sections-url="{% url 'ajax_load_groups' %}" novalidate>
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
         <button type="submit">Save</button>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+    $("#id_filial").change(function () {
+      var url_sections = $("#studentForm").attr("data-sections-url");      // get the url of the `load_groups` view
+      var filialId = $(this).val();                            // get the selected filial ID from the HTML input
+
+      $.ajax({                                                // initialize an AJAX request
+        url: url_sections,                                             // set the url of the request (= localhost:8000/ajax/load_groups/)
+        data: {
+          'filial': filialId                                // add the filial id to the GET parameters
+        },
+        success: function (data) {                            // `data` is the return of the `load_groups` view function
+          $("#id_section").html(data);                          // replace the contents of the section input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+  <script>
+    $("#id_section").change(function () {
+      var url_groups = $("#studentForm").attr("data-sections-url");      // get the url of the `load_groups` view
+      var sectionId = $(this).val();
+
+      $.ajax({                                                // initialize an AJAX request
+        url: url_groups,                                             // set the url of the request (= localhost:8000/ajax/load_groups/)
+        data: {
+          'section': sectionId                                // add the filial id to the GET parameters
+        },
+        success: function (data) {                            // `data` is the return of the `load_groups` view function
+          $("#id_group").html(data);                          // replace the contents of the section input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
 {% endblock %}
